@@ -1,11 +1,10 @@
-﻿using CardsApi.Models;
-using Microsoft.EntityFrameworkCore;
-using NotesApi.Models;
-using NotesApi.Repository;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using PlantsApi.Database;
+using PlantsApi.Models;
 
-namespace CardsApi.Repository
+namespace PlantsApi.Repository
 {
     public class NotesRepository : INotesRepository
 	{

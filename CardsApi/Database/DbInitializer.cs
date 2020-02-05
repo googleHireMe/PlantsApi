@@ -1,12 +1,9 @@
-﻿using CardsApi.Models;
-using NotesApi.Models;
-using NotesApi.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using PlantsApi.Models;
 
-namespace CardsApi.Database
+namespace PlantsApi.Database
 {
 	public static class DbInitializer
 	{

@@ -1,10 +1,7 @@
-﻿using CardsApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using PlantsApi.Models;
 
-namespace NotesApi.Models
+namespace PlantsApi.Repository
 {
     public interface INotesRepository
     {

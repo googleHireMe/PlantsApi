@@ -1,10 +1,8 @@
-﻿using CardsApi.Models;
-using System;
-using System.Collections;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NotesApi.Models
+namespace PlantsApi.Models
 {
 	public class Note
 	{

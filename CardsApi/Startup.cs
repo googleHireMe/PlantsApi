@@ -1,27 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NotesApi.Repository;
-using NotesApi.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using CardsApi.Repository;
+using PlantsApi.Database;
+using PlantsApi.Models;
+using PlantsApi.Repository;
 
-namespace NotesApi
+namespace PlantsApi
 {
     public class Startup
     {
         private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         private readonly string DbConnectionString = "DefaultConnection";
+        private readonly string IdentityConnectionString = "IdentityConnection";
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -58,6 +53,7 @@ namespace NotesApi
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
@@ -69,6 +65,16 @@ namespace NotesApi
         {
             services.AddDbContext<NotesContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(DbConnectionString)));
+
+            services.AddDbContext<IdentityDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString(IdentityConnectionString)));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
         }
     }
 }

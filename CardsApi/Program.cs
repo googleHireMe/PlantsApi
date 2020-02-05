@@ -1,16 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CardsApi.Database;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NotesApi.Repository;
+using PlantsApi.Database;
 
-namespace NotesApi
+namespace PlantsApi
 {
 	public class Program
 	{
@@ -25,6 +20,7 @@ namespace NotesApi
 				{
 					var context = services.GetRequiredService<NotesContext>();
 					DbInitializer.Initialize(context);
+					IdentityDbInitializer.Initialize(services);
 				}
 				catch (Exception ex)
 				{

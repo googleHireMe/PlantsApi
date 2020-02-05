@@ -1,12 +1,7 @@
-﻿using NotesApi.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CardsApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantsApi.Models;
 
-namespace NotesApi.Repository
+namespace PlantsApi.Database
 {
 	public class NotesContext : DbContext
 	{

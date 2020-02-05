@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CardsApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NotesApi.Models;
+using PlantsApi.Models;
+using PlantsApi.Repository;
 
-namespace CardsApi.Controllers
+namespace PlantsApi.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
