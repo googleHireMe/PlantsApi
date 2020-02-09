@@ -1,0 +1,16 @@
+﻿
+//Database server for managment studio:
+(LocalDb)\MSSQLLocalDB
+
+//First add migration
+dotnet ef migrations add IdentityInitial --context IdentityContext --verbose
+dotnet ef migrations add PlantsInitial --context PlantsContext --verbose
+
+//Update context
+dotnet ef database update --context IdentityContext
+dotnet ef database update --context PlantsContext
+
+//Login
+https://localhost:44335/Account/Login?Username=nanevokshonov&Password=Sectret@228
+//Logout
+https://localhost:44335/Account/Logout

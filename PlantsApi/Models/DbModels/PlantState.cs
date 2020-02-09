@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlantsApi.Models
 {
-    public class PlantStateHistory
+    public class PlantState
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -14,8 +14,11 @@ namespace PlantsApi.Models
         public int SoilMoist { get; set; }
         public int SoilEc { get; set; }
 
-        public int PlantID { get; set; }
+        public int PlantId { get; set; }
         public Plant Plant { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 
 }

@@ -4,9 +4,9 @@ using PlantsApi.Models;
 
 namespace PlantsApi.Database
 {
-    public class IdentityDbContext : IdentityDbContext<ApplicationUser>
+    public class IdentityContext : IdentityDbContext<ApplicationUser>
     {
-        public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
 
         }

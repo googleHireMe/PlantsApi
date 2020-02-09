@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,13 +10,14 @@ using Microsoft.Extensions.Hosting;
 using PlantsApi.Database;
 using PlantsApi.Models;
 using PlantsApi.Repository;
+using System.Threading.Tasks;
 
 namespace PlantsApi
 {
     public class Startup
     {
         private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-        private readonly string DbConnectionString = "DefaultConnection";
+        private readonly string DbConnectionString = "PlantsConnection";
         private readonly string IdentityConnectionString = "IdentityConnection";
         public IConfiguration Configuration { get; }
 
@@ -24,25 +26,15 @@ namespace PlantsApi
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureDatabase(services);
-
-            services.AddScoped<INotesRepository, NotesRepository>();
-            services.AddControllers()
-                .AddNewtonsoftJson();
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    policy =>
-                    {
-                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    });
-            });
+            ConfigureIdentity(services);
+            ConfigureCors(services);
+            services.AddScoped<IPlantsRepository, PlantsRepositiry>();
+            services.AddControllers().AddNewtonsoftJson();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -53,6 +45,7 @@ namespace PlantsApi
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
@@ -63,18 +56,39 @@ namespace PlantsApi
 
         private void ConfigureDatabase(IServiceCollection services)
         {
-            services.AddDbContext<NotesContext>(options =>
+            services.AddDbContext<PlantsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(DbConnectionString)));
 
-            services.AddDbContext<IdentityDbContext>(options => 
+            services.AddDbContext<IdentityContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString(IdentityConnectionString)));
+        }
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityDbContext>()
-                .AddDefaultTokenProviders();
+		private void ConfigureIdentity(IServiceCollection services)
+		{
+			services.AddIdentity<ApplicationUser, IdentityRole>()
+	            .AddEntityFrameworkStores<IdentityContext>()
+	            .AddDefaultTokenProviders();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+			services.ConfigureApplicationCookie(options =>
+			{
+				options.Events.OnRedirectToLogin = context =>
+				{
+					context.Response.StatusCode = 401;
+					return Task.CompletedTask;
+				};
+			});
+		}
+
+		private void ConfigureCors(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
         }
     }
 }

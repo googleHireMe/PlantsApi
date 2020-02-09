@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using PlantsApi.Models;
@@ -8,20 +9,20 @@ namespace PlantsApi.Database
 {
     public class IdentityDbInitializer
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(IdentityContext context, UserManager<ApplicationUser> userManager)
         {
-            var context = serviceProvider.GetRequiredService<IdentityDbContext>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            const string password = "Sectret@228";
             context.Database.EnsureCreated();
             if (!context.Users.Any())
             {
                 var user = new ApplicationUser()
                 {
-                    Email = "ali@gmail.com",
+                    Email = "nanevokshonov@gmail.com",
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = "Ali"
+                    UserName = "nanevokshonov"
                 };
-                userManager.CreateAsync(user, "Ali@123");
+                var result = await userManager.CreateAsync(user, password);
+                //context.SaveChanges();
             }
         }
     }

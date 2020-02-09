@@ -8,6 +8,7 @@ namespace PlantsApi.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Guid { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
         public string RealName { get; set; }
@@ -22,7 +23,7 @@ namespace PlantsApi.Models
         public DateTime LastLoginDate { get; set; }
 
         public ICollection<PlantAssignment> PlantAssignments { get; set; }
-        public ICollection<PlantStateHistory> PlantStateHistories { get; set; }
+        public ICollection<PlantState> PlantStates { get; set; }
 
     }
 }
