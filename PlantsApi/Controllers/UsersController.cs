@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.Enums;
 using PlantsApi.Repository;
 
 namespace PlantsApi.Controllers

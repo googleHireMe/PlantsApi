@@ -20,29 +20,34 @@ namespace PlantsApi.Repository
 
 		public PlantState GetPlantState(int id)
 		{
-			throw new NotImplementedException();
+			return db.PlantStates.SingleOrDefault(ps => ps.Id == id);
 		}
 
 		public IEnumerable<PlantState> GetPlantStates()
 		{
-			throw new NotImplementedException();
+			return db.PlantStates;
 		}
 
 
 		public PlantState CreatePlantState(PlantState plantState)
 		{
-			throw new NotImplementedException();
+			db.PlantStates.Add(plantState);
+			db.SaveChanges();
+			return plantState;
 		}
 
 		public void UpdatePlantState(PlantState plantState)
 		{
+			// TODO: impl update
 			throw new NotImplementedException();
 		}
 
 
 		public void DeletePlantState(int id)
 		{
-			throw new NotImplementedException();
+			var toDelete = db.PlantStates.Single(ps => ps.Id == id);
+			db.Remove(toDelete);
+			db.SaveChanges();
 		}
 
 	}

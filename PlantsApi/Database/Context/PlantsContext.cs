@@ -8,7 +8,7 @@ namespace PlantsApi.Database
         public PlantsContext(DbContextOptions<PlantsContext> options) : base(options) { }
 
         public DbSet<Plant> Plants { get; set; }
-        public DbSet<PlantState> PlantStateHistories { get; set; }
+        public DbSet<PlantState> PlantStates { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<PlantAssignment> PlantAssignments { get; set; }
 

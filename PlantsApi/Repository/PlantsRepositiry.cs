@@ -17,26 +17,32 @@ namespace PlantsApi.Repository
 
 		public Plant GetPlant(int id)
 		{
-			throw new System.NotImplementedException();
+			return db.Plants.SingleOrDefault(p => p.Id == id);
 		}
 
 		public IEnumerable<Plant> GetPlants()
 		{
-			throw new System.NotImplementedException();
+			return db.Plants;
 		}
 
 		public Plant CreatePlant(Plant plant)
 		{
-			throw new System.NotImplementedException();
+			db.Add(plant);
+			db.SaveChanges();
+			return plant;
 		}
 		public void UpdatePlant(Plant plant)
 		{
-			throw new System.NotImplementedException();
+			var toUpdate = db.Plants.SingleOrDefault(p => p.Id == plant.Id);
+			Plant.Update(toUpdate, plant);
+			db.SaveChanges();
 		}
 
 		public void DeletePlant(int id)
 		{
-			throw new System.NotImplementedException();
+			var toRemove = db.Plants.First(p => p.Id == id);
+			db.Remove(toRemove);
+			db.SaveChanges();
 		}
 
 	}

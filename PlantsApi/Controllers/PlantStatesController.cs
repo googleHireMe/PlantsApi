@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.Enums;
 using PlantsApi.Repository;
 
 namespace PlantsApi.Controllers
@@ -43,7 +44,7 @@ namespace PlantsApi.Controllers
 		public async Task<IEnumerable<PlantState>> GetAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			var user = usersRepository.GetUser(userGuid);
+			var user = usersRepository.GetUser(userGuid, UserInclude.PlantStates);
 			return user.PlantStates;
 		}
 

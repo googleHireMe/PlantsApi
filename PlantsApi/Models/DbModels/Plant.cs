@@ -28,6 +28,32 @@ namespace PlantsApi.Models
         public int MinSoilMoist { get; set; }
         public int MaxSoilEc { get; set; }
         public int MaxSoilEx { get; set; }
+
+        public static void Update(Plant value, Plant updatedValue)
+        {
+            value.Bloom = updatedValue.Bloom;
+            value.Color = updatedValue.Color;
+            value.Country = updatedValue.Country;
+            value.Fertility = updatedValue.Fertility;
+            value.Image = updatedValue.Image;
+            value.MaxEnvHumid = updatedValue.MaxEnvHumid;
+            value.MaxLightLux = updatedValue.MaxLightLux;
+            value.MaxLightMmol = updatedValue.MaxLightMmol;
+            value.MaxSoilEc = updatedValue.MaxSoilEc;
+            value.MaxSoilEx = updatedValue.MaxSoilEx;
+            value.MaxSoilMoist = updatedValue.MaxSoilMoist;
+            value.MaxTemp = updatedValue.MaxTemp;
+            value.MinEnvHumid = updatedValue.MinEnvHumid;
+            value.MinLightLux = updatedValue.MinLightLux;
+            value.MinLightMmol = updatedValue.MinLightMmol;
+            value.MinSoilMoist = updatedValue.MinSoilMoist;
+            value.MinTemp = updatedValue.MinTemp;
+            value.Name = updatedValue.Name;
+            value.Size = updatedValue.Size;
+            value.Soil = updatedValue.Soil;
+            value.Sunlight = updatedValue.Sunlight;
+            value.Water = updatedValue.Water;
+        }
     }
 
 }
