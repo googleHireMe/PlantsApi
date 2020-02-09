@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PlantsApi.Database;
+using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace PlantsApi
             ConfigureDatabase(services);
             ConfigureIdentity(services);
             ConfigureCors(services);
-            services.AddScoped<IPlantsRepository, PlantsRepositiry>();
+            ConfigureServices(services);
             services.AddControllers().AddNewtonsoftJson();
         }
 
@@ -52,6 +53,14 @@ namespace PlantsApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ConfigureDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IPlantsRepository, PlantsRepositiry>();
+            services.AddScoped<IPlantsStateRepository, PlantsStateRepository>();
+            services.AddScoped<IPlantAssigmentsRepository, PlantAssigmentsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
 
         private void ConfigureDatabase(IServiceCollection services)

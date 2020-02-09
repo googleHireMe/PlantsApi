@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 
@@ -16,21 +17,24 @@ namespace PlantsApi.Controllers
 	[Route("api/[controller]")]
 	public class PlantStatesController : ControllerBase
 	{
-		private readonly IPlantsRepository repository;
+		private readonly IPlantsStateRepository plantsStateRepository;
+		private readonly IUsersRepository usersRepository;
 		private readonly UserManager<ApplicationUser> userManager;
 
-		public PlantStatesController(IPlantsRepository repository,
-								UserManager<ApplicationUser> userManager)
+		public PlantStatesController(IPlantsStateRepository plantsStateRepository,
+									 IUsersRepository usersRepository,
+									 UserManager<ApplicationUser> userManager)
 		{
-			this.repository = repository;
 			this.userManager = userManager;
+			this.plantsStateRepository = plantsStateRepository;
+			this.usersRepository = usersRepository;
 		}
 
 		[HttpGet("{id}")]
 		public async Task<ActionResult<PlantState>> GetAsync(int id)
 		{
 			if (await HasAccessToPlantState(id))
-				return repository.GetPlantState(id);
+				return plantsStateRepository.GetPlantState(id);
 			else
 				return NotFound();
 		}
@@ -39,14 +43,14 @@ namespace PlantsApi.Controllers
 		public async Task<IEnumerable<PlantState>> GetAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			var user = repository.GetUser(userGuid);
+			var user = usersRepository.GetUser(userGuid);
 			return user.PlantStates;
 		}
 
 		[HttpPost]
 		public IActionResult Post([FromBody] PlantState value)
 		{
-			var created = repository.CreatePlantState(value);
+			var created = plantsStateRepository.CreatePlantState(value);
 			return CreatedAtAction(nameof(GetAsync), new { id = created.Id }, created);
 		}
 
@@ -57,7 +61,7 @@ namespace PlantsApi.Controllers
 
 			if (await HasAccessToPlantState(id))
 			{
-				repository.UpdatePlantState(value);
+				plantsStateRepository.UpdatePlantState(value);
 				return NoContent();
 			}
 			else
@@ -72,7 +76,7 @@ namespace PlantsApi.Controllers
 		{
 			if (await HasAccessToPlantState(id))
 			{
-				repository.DeletePlant(id);
+				plantsStateRepository.DeletePlantState(id);
 				return NoContent();
 			}
 			else
@@ -84,8 +88,8 @@ namespace PlantsApi.Controllers
 		private async Task<bool> HasAccessToPlantState(int plantStateId)
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			var userId = repository.GetUser(userGuid).Id;
-			var plantState = repository.GetPlantState(plantStateId);
+			var userId = usersRepository.GetUser(userGuid).Id;
+			var plantState = plantsStateRepository.GetPlantState(plantStateId);
 			return plantState != null && plantState.UserId == userId;
 		}
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 
@@ -14,13 +15,19 @@ namespace PlantsApi.Controllers
     [ApiController]
     public class UsersPlantsController : ControllerBase
     {
-		private readonly IPlantsRepository repository;
+		private readonly IPlantsRepository plantsRepository;
+		private readonly IPlantAssigmentsRepository plantAssigmentsRepository;
+		private readonly IUsersRepository usersRepository;
 		private readonly UserManager<ApplicationUser> userManager;
 
-		public UsersPlantsController(IPlantsRepository repository,
-									UserManager<ApplicationUser> userManager)
+		public UsersPlantsController(IPlantsRepository plantsRepository,
+									 IPlantAssigmentsRepository plantAssigmentsRepository,
+									 IUsersRepository usersRepository,
+									 UserManager<ApplicationUser> userManager)
 		{
-			this.repository = repository;
+			this.plantsRepository = plantsRepository;
+			this.plantAssigmentsRepository = plantAssigmentsRepository;
+			this.usersRepository = usersRepository;
 			this.userManager = userManager;
 		}
 
@@ -32,7 +39,7 @@ namespace PlantsApi.Controllers
 			if (user.PlantAssignments.All(pa => pa.PlantId != id))
 				return NotFound();
 
-			return repository.GetPlant(id);
+			return plantsRepository.GetPlant(id);
 		}
 
 
@@ -42,7 +49,7 @@ namespace PlantsApi.Controllers
 			var user = await GetUserAsync();
 			var plantIdsOfUser = user.PlantAssignments.Select(pa => pa.PlantId);
 
-			return repository.GetPlants().Where(p => plantIdsOfUser.Contains(p.Id));
+			return plantsRepository.GetPlants().Where(p => plantIdsOfUser.Contains(p.Id));
 		}
 
 
@@ -50,7 +57,7 @@ namespace PlantsApi.Controllers
 		public async Task<IActionResult> PostAsync([FromBody] int linkedPlantId)
 		{
 			var user = await GetUserAsync();
-			repository.LinkUserToPlant(user.Id, linkedPlantId);
+			plantAssigmentsRepository.LinkUserToPlant(user.Id, linkedPlantId);
 			return NoContent();
 		}
 
@@ -59,14 +66,14 @@ namespace PlantsApi.Controllers
 		public async Task<IActionResult> DeleteAsync(int linkedPlantId)
 		{
 			var user = await GetUserAsync();
-			repository.DeleteLinkUserToPlant(user.Id, linkedPlantId);
+			plantAssigmentsRepository.DeleteLinkUserToPlant(user.Id, linkedPlantId);
 			return NoContent();
 		}
 
 		private async Task<User> GetUserAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			return repository.GetUser(userGuid);
+			return usersRepository.GetUser(userGuid);
 		}
 
 	}
