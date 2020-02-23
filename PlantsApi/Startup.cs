@@ -38,11 +38,7 @@ namespace PlantsApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            app.UseDeveloperExceptionPage();
             app.UseCors(MyAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseRouting();
