@@ -32,7 +32,7 @@ namespace PlantsApi
             ConfigureDatabase(services);
             ConfigureIdentity(services);
             ConfigureCors(services);
-            ConfigureServices(services);
+            ConfigureDependencies(services);
             services.AddControllers().AddNewtonsoftJson();
         }
 
