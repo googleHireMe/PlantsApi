@@ -15,7 +15,7 @@ namespace PlantsApi.Migrations.Plants
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -53,9 +53,6 @@ namespace PlantsApi.Migrations.Plants
                     b.Property<int>("MaxSoilEc")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaxSoilEx")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxSoilMoist")
                         .HasColumnType("int");
 
@@ -69,6 +66,9 @@ namespace PlantsApi.Migrations.Plants
                         .HasColumnType("int");
 
                     b.Property<int>("MinLightMmol")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinSoilEc")
                         .HasColumnType("int");
 
                     b.Property<int>("MinSoilMoist")
@@ -140,7 +140,7 @@ namespace PlantsApi.Migrations.Plants
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -169,6 +169,9 @@ namespace PlantsApi.Migrations.Plants
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastLoginDate")
@@ -223,9 +226,11 @@ namespace PlantsApi.Migrations.Plants
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlantsApi.Models.User", null)
-                        .WithMany("PlantStateHistories")
-                        .HasForeignKey("UserId");
+                    b.HasOne("PlantsApi.Models.User", "User")
+                        .WithMany("PlantStates")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -10,14 +10,14 @@ using PlantsApi.Database;
 namespace PlantsApi.Migrations.Plants
 {
     [DbContext(typeof(PlantsContext))]
-    [Migration("20200209091704_PlantsInitial")]
+    [Migration("20200420104508_PlantsInitial")]
     partial class PlantsInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -55,9 +55,6 @@ namespace PlantsApi.Migrations.Plants
                     b.Property<int>("MaxSoilEc")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaxSoilEx")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxSoilMoist")
                         .HasColumnType("int");
 
@@ -71,6 +68,9 @@ namespace PlantsApi.Migrations.Plants
                         .HasColumnType("int");
 
                     b.Property<int>("MinLightMmol")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinSoilEc")
                         .HasColumnType("int");
 
                     b.Property<int>("MinSoilMoist")
@@ -101,20 +101,20 @@ namespace PlantsApi.Migrations.Plants
 
             modelBuilder.Entity("PlantsApi.Models.PlantAssignment", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlantID")
+                    b.Property<int>("PlantId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserID", "PlantID");
+                    b.HasKey("UserId", "PlantId");
 
-                    b.HasIndex("PlantID");
+                    b.HasIndex("PlantId");
 
                     b.ToTable("PlantAssignment");
                 });
 
-            modelBuilder.Entity("PlantsApi.Models.PlantStateHistory", b =>
+            modelBuilder.Entity("PlantsApi.Models.PlantState", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,7 +127,7 @@ namespace PlantsApi.Migrations.Plants
                     b.Property<int>("Light")
                         .HasColumnType("int");
 
-                    b.Property<int>("PlantID")
+                    b.Property<int>("PlantId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoilEc")
@@ -142,16 +142,16 @@ namespace PlantsApi.Migrations.Plants
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlantID");
+                    b.HasIndex("PlantId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PlantStateHistory");
+                    b.ToTable("PlantState");
                 });
 
             modelBuilder.Entity("PlantsApi.Models.User", b =>
@@ -171,6 +171,9 @@ namespace PlantsApi.Migrations.Plants
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Guid")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("LastLoginDate")
@@ -206,28 +209,30 @@ namespace PlantsApi.Migrations.Plants
                 {
                     b.HasOne("PlantsApi.Models.Plant", "Plant")
                         .WithMany()
-                        .HasForeignKey("PlantID")
+                        .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PlantsApi.Models.User", "User")
                         .WithMany("PlantAssignments")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PlantsApi.Models.PlantStateHistory", b =>
+            modelBuilder.Entity("PlantsApi.Models.PlantState", b =>
                 {
                     b.HasOne("PlantsApi.Models.Plant", "Plant")
                         .WithMany()
-                        .HasForeignKey("PlantID")
+                        .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PlantsApi.Models.User", null)
-                        .WithMany("PlantStateHistories")
-                        .HasForeignKey("UserId");
+                    b.HasOne("PlantsApi.Models.User", "User")
+                        .WithMany("PlantStates")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

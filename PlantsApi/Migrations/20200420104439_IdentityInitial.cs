@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PlantsApi.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class IdentityInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

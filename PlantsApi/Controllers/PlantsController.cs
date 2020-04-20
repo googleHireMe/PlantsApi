@@ -27,10 +27,14 @@ namespace PlantsApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IEnumerable<Plant>> GetAsync() => repository.GetPlants();
+        public IEnumerable<Plant> Get()
+        {
+			var plants = repository.GetPlants().ToList();
+			return plants;
+        }
 
 
-		[HttpGet("{id}")]
+        [HttpGet("{id}")]
 		public async Task<ActionResult<Plant>> GetAsync(int id)
 		{
 			if (DoesPlantExist(id))

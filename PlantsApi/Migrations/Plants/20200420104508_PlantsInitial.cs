@@ -34,7 +34,7 @@ namespace PlantsApi.Migrations.Plants
                     MaxSoilMoist = table.Column<int>(nullable: false),
                     MinSoilMoist = table.Column<int>(nullable: false),
                     MaxSoilEc = table.Column<int>(nullable: false),
-                    MaxSoilEx = table.Column<int>(nullable: false)
+                    MinSoilEc = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,6 +47,7 @@ namespace PlantsApi.Migrations.Plants
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Guid = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     RealName = table.Column<string>(nullable: true),
@@ -69,28 +70,28 @@ namespace PlantsApi.Migrations.Plants
                 name: "PlantAssignment",
                 columns: table => new
                 {
-                    PlantID = table.Column<int>(nullable: false),
-                    UserID = table.Column<int>(nullable: false)
+                    PlantId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlantAssignment", x => new { x.UserID, x.PlantID });
+                    table.PrimaryKey("PK_PlantAssignment", x => new { x.UserId, x.PlantId });
                     table.ForeignKey(
-                        name: "FK_PlantAssignment_Plant_PlantID",
-                        column: x => x.PlantID,
+                        name: "FK_PlantAssignment_Plant_PlantId",
+                        column: x => x.PlantId,
                         principalTable: "Plant",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlantAssignment_User_UserID",
-                        column: x => x.UserID,
+                        name: "FK_PlantAssignment_User_UserId",
+                        column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlantStateHistory",
+                name: "PlantState",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -101,39 +102,39 @@ namespace PlantsApi.Migrations.Plants
                     EnvHumid = table.Column<int>(nullable: false),
                     SoilMoist = table.Column<int>(nullable: false),
                     SoilEc = table.Column<int>(nullable: false),
-                    PlantID = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    PlantId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlantStateHistory", x => x.Id);
+                    table.PrimaryKey("PK_PlantState", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlantStateHistory_Plant_PlantID",
-                        column: x => x.PlantID,
+                        name: "FK_PlantState_Plant_PlantId",
+                        column: x => x.PlantId,
                         principalTable: "Plant",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlantStateHistory_User_UserId",
+                        name: "FK_PlantState_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlantAssignment_PlantID",
+                name: "IX_PlantAssignment_PlantId",
                 table: "PlantAssignment",
-                column: "PlantID");
+                column: "PlantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlantStateHistory_PlantID",
-                table: "PlantStateHistory",
-                column: "PlantID");
+                name: "IX_PlantState_PlantId",
+                table: "PlantState",
+                column: "PlantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlantStateHistory_UserId",
-                table: "PlantStateHistory",
+                name: "IX_PlantState_UserId",
+                table: "PlantState",
                 column: "UserId");
         }
 
@@ -143,7 +144,7 @@ namespace PlantsApi.Migrations.Plants
                 name: "PlantAssignment");
 
             migrationBuilder.DropTable(
-                name: "PlantStateHistory");
+                name: "PlantState");
 
             migrationBuilder.DropTable(
                 name: "Plant");

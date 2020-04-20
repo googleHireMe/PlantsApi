@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PlantsApi.Models;
 
 namespace PlantsApi.Database
@@ -10,7 +11,8 @@ namespace PlantsApi.Database
 		public static void Initialize(PlantsContext context)
 		{
 			//context.Database.EnsureDeleted();
-			context.Database.EnsureCreated();
+			//context.Database.EnsureCreated();
+			context.Database.Migrate();
 			if (context.Plants.Any()) { return; }
 
 			var plants = GetPlants();
@@ -46,7 +48,7 @@ namespace PlantsApi.Database
 					MaxSoilMoist = 10,
 					MinSoilMoist = 1,
 					MaxSoilEc = 10,
-					MaxSoilEx = 10
+					MinSoilEc = 1
 				}
 			};
 		}

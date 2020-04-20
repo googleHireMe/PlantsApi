@@ -27,7 +27,7 @@ namespace PlantsApi.Models
         public int MaxSoilMoist { get; set; }
         public int MinSoilMoist { get; set; }
         public int MaxSoilEc { get; set; }
-        public int MaxSoilEx { get; set; }
+        public int MinSoilEc { get; set; }
 
         public static void Update(Plant value, Plant updatedValue)
         {
@@ -40,7 +40,7 @@ namespace PlantsApi.Models
             value.MaxLightLux = updatedValue.MaxLightLux;
             value.MaxLightMmol = updatedValue.MaxLightMmol;
             value.MaxSoilEc = updatedValue.MaxSoilEc;
-            value.MaxSoilEx = updatedValue.MaxSoilEx;
+            value.MinSoilEc = updatedValue.MinSoilEc;
             value.MaxSoilMoist = updatedValue.MaxSoilMoist;
             value.MaxTemp = updatedValue.MaxTemp;
             value.MinEnvHumid = updatedValue.MinEnvHumid;
