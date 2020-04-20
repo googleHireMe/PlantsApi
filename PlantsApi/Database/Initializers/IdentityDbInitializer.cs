@@ -14,8 +14,8 @@ namespace PlantsApi.Database
         {
             const string password = "Sectret@228";
             //context.Database.EnsureDeleted();
-            //context.Database.EnsureCreated();
-            context.Database.Migrate();
+            context.Database.EnsureCreated();
+            //context.Database.Migrate();
             if (!context.Users.Any())
             {
                 var user = new ApplicationUser()

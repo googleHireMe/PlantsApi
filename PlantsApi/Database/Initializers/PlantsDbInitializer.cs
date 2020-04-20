@@ -11,8 +11,8 @@ namespace PlantsApi.Database
 		public static void Initialize(PlantsContext context)
 		{
 			//context.Database.EnsureDeleted();
-			//context.Database.EnsureCreated();
-			context.Database.Migrate();
+			context.Database.EnsureCreated();
+			//context.Database.Migrate();
 			if (context.Plants.Any()) { return; }
 
 			var plants = GetPlants();
