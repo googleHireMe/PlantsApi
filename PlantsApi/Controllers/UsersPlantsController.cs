@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.Enums;
+using PlantsApi.Models.ViewModels;
 using PlantsApi.Repository;
 
 namespace PlantsApi.Controllers
@@ -54,15 +56,15 @@ namespace PlantsApi.Controllers
 
 
 		[HttpPost]
-		public async Task<IActionResult> PostAsync([FromBody] int linkedPlantId)
+		public async Task<IActionResult> PostAsync([FromBody] LinkedPlantIdDto linkedPlantIdDto)
 		{
 			var user = await GetUserAsync();
-			plantAssigmentsRepository.LinkUserToPlant(user.Id, linkedPlantId);
+			plantAssigmentsRepository.LinkUserToPlant(user.Id, linkedPlantIdDto.linkedPlantId);
 			return NoContent();
 		}
 
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{linkedPlantId}")]
 		public async Task<IActionResult> DeleteAsync(int linkedPlantId)
 		{
 			var user = await GetUserAsync();
@@ -73,7 +75,7 @@ namespace PlantsApi.Controllers
 		private async Task<User> GetUserAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			return usersRepository.GetUser(userGuid);
+			return usersRepository.GetUser(userGuid, UserInclude.PlantAssignments);
 		}
 
 	}

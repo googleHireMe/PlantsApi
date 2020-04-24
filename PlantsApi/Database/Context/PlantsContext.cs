@@ -5,7 +5,10 @@ namespace PlantsApi.Database
 {
     public class PlantsContext : DbContext
     {
-        public PlantsContext(DbContextOptions<PlantsContext> options) : base(options) { }
+        public PlantsContext(DbContextOptions<PlantsContext> options) : base(options)
+        {
+            //this.ChangeTracker.LazyLoadingEnabled = false;
+        }
 
         public DbSet<Plant> Plants { get; set; }
         public DbSet<PlantState> PlantStates { get; set; }

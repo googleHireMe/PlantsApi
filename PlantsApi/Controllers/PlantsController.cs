@@ -27,8 +27,9 @@ namespace PlantsApi.Controllers
 		}
 
 		[HttpGet]
-        public IEnumerable<Plant> Get()
+        public async Task<IEnumerable<Plant>> GetAsync()
         {
+			var userId = await userManager.GetUserAsync(User);
 			var plants = repository.GetPlants().ToList();
 			return plants;
         }

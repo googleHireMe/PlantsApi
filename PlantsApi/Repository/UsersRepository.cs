@@ -71,5 +71,17 @@ namespace PlantsApi.Repository
 			return db.Users;
 		}
 
+		public User CreateUser(ApplicationUser applicationUser, string password)
+		{
+			var newUser = new User();
+			newUser.Guid = applicationUser.Id;
+			newUser.Email = applicationUser.Email;
+			newUser.Name = applicationUser.UserName;
+			newUser.Password = password;
+			db.Users.Add(newUser);
+			db.SaveChanges();
+			return newUser;
+		}
+
 	}
 }

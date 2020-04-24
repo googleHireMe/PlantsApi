@@ -44,15 +44,20 @@ namespace PlantsApi.Controllers
 		public async Task<IEnumerable<PlantState>> GetAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			var user = usersRepository.GetUser(userGuid, UserInclude.PlantStates);
-			return user.PlantStates;
+			var user = usersRepository.GetUser(userGuid);
+			var result = plantsStateRepository.GetPlantStatesForUser(user.Id).ToList();
+			return result;
 		}
 
 		[HttpPost]
-		public IActionResult Post([FromBody] PlantState value)
+		public async Task<IActionResult> PostAsync([FromBody] PlantState value)
 		{
+			var appUser = await userManager.GetUserAsync(User);
+			var user = usersRepository.GetUser(appUser.Id);
+			value.UserId = user.Id;
+			value.Time = DateTime.Now;
 			var created = plantsStateRepository.CreatePlantState(value);
-			return CreatedAtAction(nameof(GetAsync), new { id = created.Id }, created);
+			return Ok(created);
 		}
 
 		[HttpPut("{id}")]

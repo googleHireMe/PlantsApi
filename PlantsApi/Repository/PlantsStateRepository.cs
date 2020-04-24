@@ -23,6 +23,11 @@ namespace PlantsApi.Repository
 			return db.PlantStates.SingleOrDefault(ps => ps.Id == id);
 		}
 
+		public IEnumerable<PlantState> GetPlantStatesForUser(int userId)
+		{
+			return db.PlantStates.Where(ps => ps.UserId == userId);
+		}
+
 		public IEnumerable<PlantState> GetPlantStates()
 		{
 			return db.PlantStates;

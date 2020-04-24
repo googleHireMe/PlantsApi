@@ -9,5 +9,7 @@ namespace PlantsApi.Interfaces
 		User GetUser(int id, UserInclude? include = null);
 		User GetUser(string guid, UserInclude? include = null);
 		IEnumerable<User> GetUsers();
+
+		User CreateUser(ApplicationUser applicationUser, string password);
 	}
 }

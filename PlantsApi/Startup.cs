@@ -33,7 +33,11 @@ namespace PlantsApi
             ConfigureIdentity(services);
             ConfigureCors(services);
             ConfigureDependencies(services);
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers()
+                .AddNewtonsoftJson(o => {
+                    o.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                 });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -64,33 +68,48 @@ namespace PlantsApi
             services.AddDbContext<PlantsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(DbConnectionString)));
 
-            services.AddDbContext<IdentityContext>(options => 
+            services.AddDbContext<IdentityContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(IdentityConnectionString)));
         }
 
-		private void ConfigureIdentity(IServiceCollection services)
-		{
-			services.AddIdentity<ApplicationUser, IdentityRole>()
-	            .AddEntityFrameworkStores<IdentityContext>()
-	            .AddDefaultTokenProviders();
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>()
+                .AddDefaultTokenProviders();
 
-			services.ConfigureApplicationCookie(options =>
-			{
-				options.Events.OnRedirectToLogin = context =>
-				{
-					context.Response.StatusCode = 401;
-					return Task.CompletedTask;
-				};
-			});
-		}
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
 
-		private void ConfigureCors(IServiceCollection services)
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+        }
+
+        private void ConfigureCors(IServiceCollection services)
         {
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
                     policy =>
                     {
+                        //policy.AllowCredentials()
+                        //    .WithOrigins(
+                        //    "http://localhost:1488",
+                        //    "https://localhost:1488")
+                        //    .AllowAnyMethod()
+                        //    .AllowAnyHeader();
                         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });

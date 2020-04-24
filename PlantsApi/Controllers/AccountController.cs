@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Models.ViewModels;
 
@@ -20,12 +21,15 @@ namespace PlantsApi.Controllers
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
+        private IUsersRepository usersRepository;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-                                        SignInManager<ApplicationUser> signInManager)
+                                 SignInManager<ApplicationUser> signInManager,
+                                 IUsersRepository usersRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.usersRepository = usersRepository;
         }
 
 
@@ -35,7 +39,7 @@ namespace PlantsApi.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
+            var user = await userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
                 await signInManager.SignOutAsync();
@@ -52,6 +56,7 @@ namespace PlantsApi.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             return Ok();
         }
 
@@ -91,11 +96,12 @@ namespace PlantsApi.Controllers
         {
             var user = new ApplicationUser()
             {
-                Email = model.Username,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username.Split('@').First()
+                Email = model.Email,
+                UserName = model.Username,
+                SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await userManager.CreateAsync(user, model.Password);
+            usersRepository.CreateUser(user, model.Password);
             if (result.Succeeded) { return Ok(); }
             else
             {
