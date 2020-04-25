@@ -103,7 +103,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Name = "Abelia Chinensis",
                 Country = "China",
-                Image = null,
+                Image = "http://pkb.resource.huahuacaocao.com/YWJlbGlhIGNoaW5lbnNpcy5qcGc=?imageView2/1/w/%d/h/%d",
                 Bloom = "Flowering period July-August, fruiting period October",
                 Color = "Flower color pink, white",
                 Size = "Diameter â¥ 10 cm, height â¥ 15 cm",
@@ -128,7 +128,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Name = "Aeonium Haworthii",
                 Country = "Africa",
-                Image = null,
+                Image = "http://pkb.resource.huahuacaocao.com/YWVvbml1bSBoYXdvcnRoaWkuanBn?imageView2/1/w/%d/h/%d",
                 Bloom = "Succulent plants, sometimes flowers",
                 Color = "Leaf color yellow green , when sunny leaf margine turnning to red",
                 Size = "Diameter â¥ 5 cm, height 5-20 cm",
@@ -153,7 +153,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Name = "Echeveria agavoides 'Romeo'",
                 Country = "Asia",
-                Image = null,
+                Image = "http://pkb.resource.huahuacaocao.com/ZWNoZXZlcmlhIGFnYXZvaWRlcyAncm9tZW8nLmpwZw==?imageView2/1/w/%d/h/%d",
                 Bloom = "Succulent plants, sometimes flowers with a short period time",
                 Color = "Leaf color light greenï¼and will turn red with sufficient light",
                 Size = "Diameter3-10cmï¼Height5-15cm",
@@ -178,7 +178,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Name = "Nolana paradoxa",
                 Country = "South America",
-                Image = null,
+                Image = "http://pkb.resource.huahuacaocao.com/bm9sYW5hIHBhcmFkb3hhLmpwZw==?imageView2/1/w/%d/h/%d",
                 Bloom = "Flowering period April-December, viewing period 2-3 weeks",
                 Color = "Flower color red, pink, white",
                 Size = "Diameter â¥ 10 cm, height â¥ 15 cm",
@@ -203,7 +203,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Name = "Zantedeschia 'Captain Hollywood'",
                 Country = "Holland",
-                Image = null,
+                Image = "http://pkb.resource.huahuacaocao.com/emFudGVkZXNjaGlhICdjYXB0YWluIGhvbGx5d29vZCcuanBn?imageView2/1/w/%d/h/%d",
                 Bloom = "Flowering period November-May, viewing period 1-2 months",
                 Color = "Bract pink red",
                 Size = "Diameter â¥ 10 cm, height 16-20 cm",
@@ -245,7 +245,9 @@ namespace PlantsApi.Services.Initializers
                 Temp = 20,
                 EnvHumid = 643,
                 SoilMoist = 9342,
-                SoilEc = 834
+                SoilEc = 834,
+                Battery = 91,
+                WaterRemained = 65
             };
             var plants = plantsContext.Plants.ToList();
             var userId = plantsContext.Users.First(u => u.Email == "gegor@gmail.com").Id;
