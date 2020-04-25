@@ -104,13 +104,13 @@ namespace PlantsApi
                 options.AddPolicy(MyAllowSpecificOrigins,
                     policy =>
                     {
-                        //policy.AllowCredentials()
-                        //    .WithOrigins(
-                        //    "http://localhost:1488",
-                        //    "https://localhost:1488")
-                        //    .AllowAnyMethod()
-                        //    .AllowAnyHeader();
-                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                        policy.AllowCredentials()
+                            .WithOrigins(
+                            "http://localhost:1488",
+                            "https://localhost:1488")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                        //policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });
         }

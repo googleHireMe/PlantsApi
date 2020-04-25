@@ -101,8 +101,11 @@ namespace PlantsApi.Controllers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await userManager.CreateAsync(user, model.Password);
-            usersRepository.CreateUser(user, model.Password);
-            if (result.Succeeded) { return Ok(); }
+            if (result.Succeeded)
+            {
+                usersRepository.CreateUser(user, model.Password);
+                return Ok();
+            }
             else
             {
                 // TODD: Add validation errors
