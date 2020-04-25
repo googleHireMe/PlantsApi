@@ -11,6 +11,7 @@ using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
+using PlantsApi.Services.Initializers;
 using System.Threading.Tasks;
 
 namespace PlantsApi
@@ -61,6 +62,7 @@ namespace PlantsApi
             services.AddScoped<IPlantsStateRepository, PlantsStateRepository>();
             services.AddScoped<IPlantAssigmentsRepository, PlantAssigmentsRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddTransient<RuntimeInitializer, RuntimeInitializer>();
         }
 
         private void ConfigureDatabase(IServiceCollection services)

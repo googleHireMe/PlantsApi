@@ -16,24 +16,24 @@ namespace PlantsApi
 		{
 			var host = CreateWebHostBuilder(args).Build();
 
-			using (var scope = host.Services.CreateScope())
-			{
-				var serviceProvider = scope.ServiceProvider;
-				try
-				{
-					var plantsContext = serviceProvider.GetRequiredService<PlantsContext>();
-					PlantsDbInitializer.Initialize(plantsContext);
+			//using (var scope = host.Services.CreateScope())
+			//{
+			//	var serviceProvider = scope.ServiceProvider;
+			//	try
+			//	{
+			//		var plantsContext = serviceProvider.GetRequiredService<PlantsContext>();
+			//		PlantsDbInitializer.Initialize(plantsContext);
 
-					var identityContext = serviceProvider.GetRequiredService<IdentityContext>();
-					var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-					await IdentityDbInitializer.InitializeAsync(identityContext, userManager);
-				}
-				catch (Exception ex)
-				{
-					var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-					logger.LogError(ex, "An error occurred while seeding the database.");
-				}
-			}
+			//		var identityContext = serviceProvider.GetRequiredService<IdentityContext>();
+			//		var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+			//		await IdentityDbInitializer.InitializeAsync(identityContext, userManager);
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+			//		logger.LogError(ex, "An error occurred while seeding the database.");
+			//	}
+			//}
 
 			host.Run();
 		}

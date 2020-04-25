@@ -19,6 +19,22 @@ namespace PlantsApi.Models
 
         public int UserId { get; set; }
         public User User { get; set; }
+
+        public static PlantState Clone(PlantState dto)
+        {
+            return new PlantState
+            {
+                Id = dto.Id,
+                Time = dto.Time,
+                Light = dto.Light,
+                Temp = dto.Temp,
+                EnvHumid = dto.EnvHumid,
+                SoilMoist = dto.SoilMoist,
+                SoilEc = dto.SoilEc,
+                PlantId = dto.PlantId,
+                UserId = dto.UserId
+            };
+        }
     }
 
 }

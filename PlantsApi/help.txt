@@ -14,3 +14,14 @@ dotnet ef database update --context PlantsContext
 https://localhost:44335/Account/Login?Username=nanevokshonov&Password=Sectret@228
 //Logout
 https://localhost:44335/Account/Logout
+
+//Clear db
+  delete from PlantAssignment
+  delete from PlantState
+  delete from Plant
+  delete from [User]
+  delete from [AspNetUsers]
+
+//Init Db
+/Api/RuntimeInitializer
+
