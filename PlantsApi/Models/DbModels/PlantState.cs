@@ -13,6 +13,8 @@ namespace PlantsApi.Models
         public int EnvHumid{ get; set; }
         public int SoilMoist { get; set; }
         public int SoilEc { get; set; }
+        public int Battery { get; set; }
+        public int WaterRemained { get; set; }
 
         public int PlantId { get; set; }
         public Plant Plant { get; set; }
