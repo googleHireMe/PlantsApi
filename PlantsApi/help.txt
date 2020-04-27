@@ -11,7 +11,7 @@ dotnet ef database update --context IdentityContext
 dotnet ef database update --context PlantsContext
 
 //Login
-https://localhost:44335/Account/Login?Username=nanevokshonov&Password=Sectret@228
+https://nevokshonov.mastercode.me/Account/Login?Username=Egor&Password=Qwerty1234
 //Logout
 https://localhost:44335/Account/Logout
 
