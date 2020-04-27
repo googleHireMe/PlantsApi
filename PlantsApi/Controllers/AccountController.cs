@@ -39,12 +39,16 @@ namespace PlantsApi.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            var appUser = await userManager.FindByEmailAsync(model.Email);
+            if (appUser != null)
             {
                 await signInManager.SignOutAsync();
-                var signInResult = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-                if (signInResult.Succeeded) { return Ok(); }
+                var signInResult = await signInManager.PasswordSignInAsync(appUser, model.Password, false, false);
+                if (signInResult.Succeeded)
+                {
+                    var user = usersRepository.GetUser(appUser.Id);
+                    return Ok(user);
+                }
             }
             return Unauthorized();
         }
@@ -67,12 +71,16 @@ namespace PlantsApi.Controllers
         [ActionName("Login")]
         public async Task<IActionResult> LoginGet(string Username, string Password)
         {
-            var user = await userManager.FindByNameAsync(Username);
-            if (user != null)
+            var appUser = await userManager.FindByNameAsync(Username);
+            if (appUser != null)
             {
                 await signInManager.SignOutAsync();
-                var signInResult = await signInManager.PasswordSignInAsync(user, Password, false, false);
-                if (signInResult.Succeeded) { return Ok(); }
+                var signInResult = await signInManager.PasswordSignInAsync(appUser, Password, false, false);
+                if (signInResult.Succeeded)
+                {
+                    var user = usersRepository.GetUser(appUser.Id);
+                    return Ok(user);
+                }
             }
             return Unauthorized();
         }
@@ -94,16 +102,16 @@ namespace PlantsApi.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create([FromBody] LoginModel model)
         {
-            var user = new ApplicationUser()
+            var appUser = new ApplicationUser()
             {
                 Email = model.Email,
                 UserName = model.Username,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(appUser, model.Password);
             if (result.Succeeded)
             {
-                usersRepository.CreateUser(user, model.Password);
+                usersRepository.CreateUser(appUser, model.Password);
                 return Ok();
             }
             else

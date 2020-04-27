@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,7 @@ namespace PlantsApi.Models
         public int Id { get; set; }
         public string Guid { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
         public string RealName { get; set; }
         public string Email { get; set; }
