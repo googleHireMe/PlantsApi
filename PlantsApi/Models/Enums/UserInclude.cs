@@ -6,4 +6,9 @@
         PlantStates,
         All
     }
+
+    public enum PlantStatesForUserInclude
+    {
+        Plant
+    }
 }

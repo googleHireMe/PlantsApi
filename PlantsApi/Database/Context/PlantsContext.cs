@@ -7,7 +7,7 @@ namespace PlantsApi.Database
     {
         public PlantsContext(DbContextOptions<PlantsContext> options) : base(options)
         {
-            //this.ChangeTracker.LazyLoadingEnabled = false;
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public DbSet<Plant> Plants { get; set; }

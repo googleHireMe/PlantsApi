@@ -1,4 +1,5 @@
-﻿using PlantsApi.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using System;
@@ -20,15 +21,24 @@ namespace PlantsApi.Repository
 
 		public PlantState GetPlantState(int id)
 		{
-			return db.PlantStates.SingleOrDefault(ps => ps.Id == id);
+			var result = db.PlantStates
+				.Include(ps => ps.Plant)
+				.SingleOrDefault(ps => ps.Id == id);
+			result.User = null;
+			return result;
 		}
 
-		public IEnumerable<PlantState> GetPlantStatesForUser(int userId)
-		{
-			return db.PlantStates.Where(ps => ps.UserId == userId);
-		}
+        public IEnumerable<PlantState> GetPlantStatesForUser(int userId)
+        {
+            var result = db.PlantStates
+                        .Include(ps => ps.Plant)
+                        .Where(ps => ps.UserId == userId)
+                        .ToList();
+			result.ForEach(ps => ps.User = null);
+			return result;
+        }
 
-		public IEnumerable<PlantState> GetPlantStates()
+        public IEnumerable<PlantState> GetPlantStates()
 		{
 			return db.PlantStates;
 		}
