@@ -60,7 +60,6 @@ namespace PlantsApi.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             return Ok();
         }
 
@@ -116,7 +115,6 @@ namespace PlantsApi.Controllers
             }
             else
             {
-                // TODD: Add validation errors
                 return BadRequest();
             }
         }

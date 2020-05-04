@@ -27,16 +27,15 @@ namespace PlantsApi.Controllers
 		}
 
 		[HttpGet]
-        public async Task<IEnumerable<Plant>> GetAsync()
-        {
-			var userId = await userManager.GetUserAsync(User);
+		public IEnumerable<Plant> Get()
+		{
 			var plants = repository.GetPlants().ToList();
 			return plants;
-        }
+		}
 
 
-        [HttpGet("{id}")]
-		public async Task<ActionResult<Plant>> GetAsync(int id)
+		[HttpGet("{id}")]
+		public ActionResult<Plant> Get(int id)
 		{
 			if (DoesPlantExist(id))
 				return repository.GetPlant(id);
@@ -48,7 +47,7 @@ namespace PlantsApi.Controllers
 		public IActionResult Post([FromBody] Plant value)
 		{
 			var created = repository.CreatePlant(value);
-			return CreatedAtAction(nameof(GetAsync), new { id = created.Id }, created);
+			return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
 		}
 
 		[HttpPut("{id}")]
