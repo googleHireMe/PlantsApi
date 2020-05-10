@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
+using PlantsApi.Models.ViewModels;
 
 namespace PlantsApi.Controllers
 {
@@ -79,6 +79,46 @@ namespace PlantsApi.Controllers
 				if (!DoesPlantExist(id)) { return NotFound(); }
 				else { throw; }
 			}
+		}
+
+		[HttpGet]
+		[Route("[action]")]
+		public ActionResult<PagedQueryResult> SearchPlants(string Filter, int PageNumber, int PageSize)
+		{
+			var queryDto = new PlantsPagedQueryDto
+			{
+				Filter = Filter,
+				PageNumber = PageNumber,
+				PageSize = PageSize
+			};
+			var query = repository.SearchPlants(queryDto);
+			var totalItemCount = query.Count();
+
+			// checks if no items were found
+			if (totalItemCount == 0)
+				return new PagedQueryResult
+				{
+					TotalItemsCount = 0,
+					TotalPagesCount = 0,
+					PageSize = 0,
+					Results = new List<Plant>()
+				};
+			// index for skipping previous pages
+			var countToSkip = (queryDto.PageNumber - 1) * (queryDto.PageSize);
+            var totalPageCount = (int)Math.Ceiling((decimal)totalItemCount / queryDto.PageSize);
+            //checks if the user requested a page that exceeds the query size
+            if (countToSkip != 0 && countToSkip >= totalItemCount)
+				return BadRequest(new Exception($"User requested page number { queryDto.PageNumber } when there are only { totalPageCount} pages"));
+
+			var entities = query.Skip(countToSkip).Take(queryDto.PageSize).ToList();
+			var queryResult = new PagedQueryResult
+			{
+				TotalItemsCount = totalItemCount,
+				TotalPagesCount = totalPageCount,
+				PageSize = entities.Count,
+				Results = entities
+			};
+			return queryResult;
 		}
 
 		private bool DoesPlantExist(int id) => repository.GetPlant(id) != null;
