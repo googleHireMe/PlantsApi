@@ -22,7 +22,7 @@ namespace PlantsApi.Models.ViewModels
             {
                 Time = DateTime.Now,
                 Light = dto.Light,
-                Temp = dto.Temp,
+                Temperature = dto.Temp,
                 EnvHumid = dto.EnvHumid,
                 SoilMoist = dto.SoilMoist,
                 SoilEc = dto.SoilEc,

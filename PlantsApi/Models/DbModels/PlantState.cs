@@ -9,7 +9,7 @@ namespace PlantsApi.Models
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public int Light { get; set; }
-        public int Temp { get; set; }
+        public int Temperature { get; set; }
         public int EnvHumid{ get; set; }
         public int SoilMoist { get; set; }
         public int SoilEc { get; set; }
@@ -29,7 +29,7 @@ namespace PlantsApi.Models
                 Id = dto.Id,
                 Time = dto.Time,
                 Light = dto.Light,
-                Temp = dto.Temp,
+                Temperature = dto.Temperature,
                 EnvHumid = dto.EnvHumid,
                 SoilMoist = dto.SoilMoist,
                 SoilEc = dto.SoilEc,

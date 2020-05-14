@@ -242,7 +242,7 @@ namespace PlantsApi.Services.Initializers
             {
                 Time = DateTime.Now,
                 Light = 129,
-                Temp = 20,
+                Temperature = 20,
                 EnvHumid = 643,
                 SoilMoist = 9342,
                 SoilEc = 834,
