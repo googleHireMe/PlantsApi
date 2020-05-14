@@ -64,7 +64,6 @@ namespace PlantsApi.Controllers
 		public async Task<IActionResult> PutAsync(int id, [FromBody] PlantState value)
 		{
 			if (id != value.Id) { return BadRequest(); }
-
 			if (await HasAccessToPlantState(id))
 			{
 				plantsStateRepository.UpdatePlantState(value);
@@ -74,7 +73,6 @@ namespace PlantsApi.Controllers
 			{
 				return NotFound();
 			}
-
 		}
 
 		[HttpDelete("{id}")]

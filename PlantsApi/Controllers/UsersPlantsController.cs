@@ -42,7 +42,6 @@ namespace PlantsApi.Controllers
 			var user = await GetUserAsync();
 			if (user.PlantAssignments.All(pa => pa.PlantId != id))
 				return NotFound();
-
 			return plantsRepository.GetPlant(id);
 		}
 
@@ -52,7 +51,6 @@ namespace PlantsApi.Controllers
 		{
 			var user = await GetUserAsync();
 			var plantIdsOfUser = user.PlantAssignments.Select(pa => pa.PlantId);
-
 			return plantsRepository.GetPlants().Where(p => plantIdsOfUser.Contains(p.Id));
 		}
 
