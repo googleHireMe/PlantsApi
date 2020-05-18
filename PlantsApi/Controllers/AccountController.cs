@@ -118,5 +118,23 @@ namespace PlantsApi.Controllers
                 return BadRequest();
             }
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
+        {
+            var appUser = await userManager.GetUserAsync(User);
+            var result = await userManager.ChangePasswordAsync(appUser, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                usersRepository.UpdatePassword(appUser, model.NewPassword);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

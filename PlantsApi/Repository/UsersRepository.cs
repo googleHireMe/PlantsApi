@@ -83,5 +83,12 @@ namespace PlantsApi.Repository
 			return newUser;
 		}
 
+		public void UpdatePassword(ApplicationUser applicationUser, string password)
+		{
+			var user = db.Users.First(u => u.Guid == applicationUser.Id);
+			user.Password = password;
+			db.SaveChanges();
+		}
+
 	}
 }

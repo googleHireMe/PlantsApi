@@ -11,5 +11,6 @@ namespace PlantsApi.Interfaces
 		IEnumerable<User> GetUsers();
 
 		User CreateUser(ApplicationUser applicationUser, string password);
+		void UpdatePassword(ApplicationUser applicationUser, string password);
 	}
 }
