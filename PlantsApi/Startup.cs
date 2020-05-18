@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 using PlantsApi.Services.Initializers;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace PlantsApi
@@ -34,6 +36,8 @@ namespace PlantsApi
             ConfigureIdentity(services);
             ConfigureCors(services);
             ConfigureDependencies(services);
+            var physicalProvider = new PhysicalFileProvider(Directory.GetCurrentDirectory());
+            services.AddSingleton<IFileProvider>(physicalProvider);
             services.AddControllers()
                 .AddNewtonsoftJson(o => {
                     o.SerializerSettings.ReferenceLoopHandling =
@@ -53,6 +57,11 @@ namespace PlantsApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles"))
             });
         }
 
