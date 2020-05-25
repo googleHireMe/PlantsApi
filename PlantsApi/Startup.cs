@@ -1,18 +1,16 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 using PlantsApi.Services.Initializers;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -91,6 +89,7 @@ namespace PlantsApi
 
             services.ConfigureApplicationCookie(options =>
             {
+                options.ExpireTimeSpan = TimeSpan.FromDays(10000);
                 options.Events.OnRedirectToLogin = context =>
                 {
                     context.Response.StatusCode = 401;

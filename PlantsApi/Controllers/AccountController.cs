@@ -43,7 +43,7 @@ namespace PlantsApi.Controllers
             if (appUser != null)
             {
                 await signInManager.SignOutAsync();
-                var signInResult = await signInManager.PasswordSignInAsync(appUser, model.Password, false, false);
+                var signInResult = await signInManager.PasswordSignInAsync(appUser, model.Password, true, false);
                 if (signInResult.Succeeded)
                 {
                     var user = usersRepository.GetUser(appUser.Id);
@@ -74,7 +74,7 @@ namespace PlantsApi.Controllers
             if (appUser != null)
             {
                 await signInManager.SignOutAsync();
-                var signInResult = await signInManager.PasswordSignInAsync(appUser, Password, false, false);
+                var signInResult = await signInManager.PasswordSignInAsync(appUser, Password, true, false);
                 if (signInResult.Succeeded)
                 {
                     var user = usersRepository.GetUser(appUser.Id);
