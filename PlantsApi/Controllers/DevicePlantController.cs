@@ -68,10 +68,11 @@ namespace PlantsApi.Controllers
 				.ToList()
 				.OrderByDescending(f => f.LastModified)
 				.First();
+			var fileNameWithExtension = latestFile.Name;
 			var fileName = latestFile.Name.Split('.').First();
 			var version = Convert.ToUInt64(fileName);
 
-			var url = $"{this.Request.Scheme}://{this.Request.Host}";
+			var url = $"{this.Request.Scheme}://{this.Request.Host}/{fileNameWithExtension}";
 
 			var response = new DeviceResponseDto()
 			{
