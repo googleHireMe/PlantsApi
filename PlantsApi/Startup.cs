@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -57,10 +59,17 @@ namespace PlantsApi
                 endpoints.MapControllers();
             });
             app.UseDefaultFiles();
-            app.UseStaticFiles(new StaticFileOptions()
+            try
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles"))
-            });
+                app.UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles"))
+                });
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         private void ConfigureDependencies(IServiceCollection services)
