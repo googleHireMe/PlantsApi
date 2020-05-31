@@ -15,6 +15,8 @@ namespace PlantsApi.Models.ViewModels
         public int EnvHumid { get; set; }
         public int SoilMoist { get; set; }
         public int SoilEc { get; set; }
+        public int Battery { get; set; }
+        public int WaterRemained { get; set; }
 
         public static PlantState MapToPlantState(DeviceInfoDto dto, int userId)
         {
@@ -26,6 +28,8 @@ namespace PlantsApi.Models.ViewModels
                 EnvHumid = dto.EnvHumid,
                 SoilMoist = dto.SoilMoist,
                 SoilEc = dto.SoilEc,
+                Battery = dto.Battery,
+                WaterRemained = dto.WaterRemained,
                 PlantId = dto.PlantId,
                 UserId = userId
             };

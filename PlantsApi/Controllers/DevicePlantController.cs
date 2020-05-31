@@ -39,27 +39,27 @@ namespace PlantsApi.Controllers
 			this.fileProvider = fileProvider;
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> PostAsync([FromBody] DeviceInfoDto value)
-		{
-			var appUser = await userManager.FindByEmailAsync(value.UserEmail);
-			if (appUser != null)
-			{
-				await signInManager.SignOutAsync();
-				var signInResult = await signInManager
-					.PasswordSignInAsync(appUser, value.UserPassword, false, false);
-				if (signInResult.Succeeded) 
-				{
-					var user = usersRepository.GetUser(appUser.Id);
-					var plantState = DeviceInfoDto.MapToPlantState(value, user.Id);
-					var created = plantsStateRepository.CreatePlantState(plantState);
-					return Ok(); 
-				}
-			}
-			return Unauthorized();
-		}
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] DeviceInfoDto value)
+        {
+            var appUser = await userManager.FindByEmailAsync(value.UserEmail);
+            if (appUser != null)
+            {
+                await signInManager.SignOutAsync();
+                var signInResult = await signInManager
+                    .PasswordSignInAsync(appUser, value.UserPassword, false, false);
+                if (signInResult.Succeeded)
+                {
+                    var user = usersRepository.GetUser(appUser.Id);
+                    var plantState = DeviceInfoDto.MapToPlantState(value, user.Id);
+                    var created = plantsStateRepository.CreatePlantState(plantState);
+                    return Ok();
+                }
+            }
+            return Unauthorized();
+        }
 
-		[HttpGet]
+        [HttpGet]
 		[Route("[action]")]
 		public IActionResult GetFirmware()
 		{

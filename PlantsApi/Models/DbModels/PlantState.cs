@@ -33,6 +33,8 @@ namespace PlantsApi.Models
                 EnvHumid = dto.EnvHumid,
                 SoilMoist = dto.SoilMoist,
                 SoilEc = dto.SoilEc,
+                Battery = dto.Battery,
+                WaterRemained = dto.WaterRemained,
                 PlantId = dto.PlantId,
                 UserId = dto.UserId
             };
