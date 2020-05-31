@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 
 namespace PlantsApi.Database 
 {
@@ -11,6 +11,7 @@ namespace PlantsApi.Database
         }
 
         public DbSet<Plant> Plants { get; set; }
+        public DbSet<Device> Devices { get; set; }
         public DbSet<PlantState> PlantStates { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<PlantAssignment> PlantAssignments { get; set; }
@@ -18,12 +19,17 @@ namespace PlantsApi.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Plant>().ToTable("Plant");
+            modelBuilder.Entity<Device>().ToTable("Device");
             modelBuilder.Entity<PlantState>().ToTable("PlantState");
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<PlantAssignment>().ToTable("PlantAssignment");
 
+            modelBuilder.Entity<Device>()
+                .HasIndex(d => d.SerialNumber)
+                .IsUnique();
+
             modelBuilder.Entity<PlantAssignment>()
-                .HasKey(pa => new { pa.UserId, pa.PlantId });
+                .HasKey(pa => new { pa.UserId, pa.PlantId, pa.DeviceId });
         }
 
 	}

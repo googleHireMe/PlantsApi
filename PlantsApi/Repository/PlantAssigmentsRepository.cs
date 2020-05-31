@@ -1,6 +1,7 @@
 ﻿using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,11 @@ namespace PlantsApi.Repository
 		}
 
 
-		public void LinkUserToPlant(int userId, int plantId)
+		public void LinkUserToPlant(int userId, int plantId, string serialNumber)
 		{
-			var entity = new PlantAssignment(userId, plantId);
+			// TODO: Use serial number
+			var deviceId = db.Devices.First(d => d.SerialNumber == serialNumber).Id;
+			var entity = new PlantAssignment(userId, plantId, deviceId);
 			db.PlantAssignments.Add(entity);
 			db.SaveChanges();
 		}

@@ -10,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Repository;
 using PlantsApi.Services.Initializers;
 using System;

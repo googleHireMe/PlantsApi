@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.Enums;
 using PlantsApi.Models.ViewModels;
 using PlantsApi.Repository;

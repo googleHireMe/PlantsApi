@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.Enums;
 using PlantsApi.Models.ViewModels;
 using PlantsApi.Repository;
@@ -59,7 +60,7 @@ namespace PlantsApi.Controllers
 		public async Task<IActionResult> PostAsync([FromBody] LinkedPlantIdDto linkedPlantIdDto)
 		{
 			var user = await GetUserAsync();
-			plantAssigmentsRepository.LinkUserToPlant(user.Id, linkedPlantIdDto.linkedPlantId);
+			plantAssigmentsRepository.LinkUserToPlant(user.Id, linkedPlantIdDto.LinkedPlantId, linkedPlantIdDto.SerialNumber);
 			return NoContent();
 		}
 

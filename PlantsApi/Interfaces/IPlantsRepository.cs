@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.ViewModels;
 
 namespace PlantsApi.Repository

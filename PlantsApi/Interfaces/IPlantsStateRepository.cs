@@ -1,4 +1,5 @@
 ﻿using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using System.Collections.Generic;
 
 namespace PlantsApi.Interfaces

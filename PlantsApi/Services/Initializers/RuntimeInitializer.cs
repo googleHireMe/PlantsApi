@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using PlantsApi.Database;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -271,7 +272,8 @@ namespace PlantsApi.Services.Initializers
             var plants = plantsContext.Plants.ToList();
             foreach (var plant in plants)
             {
-                var plantAssignment = new PlantAssignment(userId, plant.Id);
+                // TODO: use device id
+                var plantAssignment = new PlantAssignment(userId, plant.Id, 1);
                 result.Add(plantAssignment);
             }
             return result;

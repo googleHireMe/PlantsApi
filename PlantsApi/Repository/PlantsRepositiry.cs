@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PlantsApi.Database;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;

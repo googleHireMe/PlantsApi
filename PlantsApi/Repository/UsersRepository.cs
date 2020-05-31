@@ -2,6 +2,7 @@
 using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.Enums;
 using System;
 using System.Collections.Generic;

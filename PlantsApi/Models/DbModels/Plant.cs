@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PlantsApi.Models
+namespace PlantsApi.Models.DbModels
 {
     public class Plant
     {

@@ -1,4 +1,5 @@
 ﻿using PlantsApi.Models;
+using PlantsApi.Models.DbModels;
 using PlantsApi.Models.Enums;
 using System.Collections.Generic;
 

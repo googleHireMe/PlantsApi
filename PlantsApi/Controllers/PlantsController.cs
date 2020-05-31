@@ -7,6 +7,7 @@ using PlantsApi.Models;
 using PlantsApi.Repository;
 using Microsoft.AspNetCore.Identity;
 using PlantsApi.Models.ViewModels;
+using PlantsApi.Models.DbModels;
 
 namespace PlantsApi.Controllers
 {

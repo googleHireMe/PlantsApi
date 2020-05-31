@@ -7,6 +7,7 @@ namespace PlantsApi.Models.ViewModels
 {
     public class LinkedPlantIdDto
     {
-        public int linkedPlantId { get; set; }
+        public int LinkedPlantId { get; set; }
+        public string SerialNumber { get; set; }
     }
 }
