@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PlantsApi.Models.ViewModels
+namespace PlantsApi.Models.Dtos
 {
     public class DeviceInfoDto
     {
-        public string UserEmail { get; set; }
-        public string UserPassword { get; set; }
-        public int PlantId { get; set; }
         public int Light { get; set; }
         public int Temp { get; set; }
         public int EnvHumid { get; set; }
@@ -18,8 +15,9 @@ namespace PlantsApi.Models.ViewModels
         public int SoilEc { get; set; }
         public int Battery { get; set; }
         public int WaterRemained { get; set; }
+        public string SerialNumber { get; set; }
 
-        public static PlantState MapToPlantState(DeviceInfoDto dto, int userId)
+        public static PlantState MapToPlantState(DeviceInfoDto dto, int deviceId)
         {
             return new PlantState
             {
@@ -31,8 +29,7 @@ namespace PlantsApi.Models.ViewModels
                 SoilEc = dto.SoilEc,
                 Battery = dto.Battery,
                 WaterRemained = dto.WaterRemained,
-                PlantId = dto.PlantId,
-                UserId = userId
+                DeviceId = deviceId
             };
         }
     }

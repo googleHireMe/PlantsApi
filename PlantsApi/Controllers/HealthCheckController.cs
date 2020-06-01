@@ -8,6 +8,6 @@ namespace PlantsApi.Controllers
     public class HealthCheckController : ControllerBase
     {
         [HttpGet]
-        public async Task<string> GetAsync() => "App is online";
+        public string Get() => "App is online";
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PlantsApi.Models.ViewModels
+﻿namespace PlantsApi.Models.Dtos
 {
     public class LoginModel
     {

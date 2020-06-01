@@ -24,8 +24,7 @@ namespace PlantsApi.Models.DbModels
         public DateTime RegistrationDate { get; set; }
         public DateTime LastLoginDate { get; set; }
 
-        public ICollection<PlantAssignment> PlantAssignments { get; set; }
-        public ICollection<PlantState> PlantStates { get; set; }
+        public ICollection<Device> Devices { get; set; }
 
     }
 }

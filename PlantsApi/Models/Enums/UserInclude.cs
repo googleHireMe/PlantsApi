@@ -2,9 +2,7 @@
 {
     public enum UserInclude
     {
-        PlantAssignments,
-        PlantStates,
-        All
+        Devices
     }
 
     public enum PlantStatesForUserInclude

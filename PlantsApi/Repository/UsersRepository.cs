@@ -21,55 +21,15 @@ namespace PlantsApi.Repository
 		}
 
 
-		public User GetUser(int id, UserInclude? include = null)
+		public User GetUser(int id)
 		{
-			switch (include)
-			{
-				case UserInclude.PlantAssignments:
-					return db.Users
-						.Include(u => u.PlantAssignments)
-						.SingleOrDefault(u => u.Id == id);
-				case UserInclude.PlantStates:
-					return db.Users
-						.Include(u => u.PlantStates)
-						.SingleOrDefault(u => u.Id == id);
-				case UserInclude.All:
-					return db.Users
-						.Include(u => u.PlantAssignments)
-						.Include(u => u.PlantStates)
-						.SingleOrDefault(u => u.Id == id);
-				default:
-					return db.Users.SingleOrDefault(u => u.Id == id);
-			}
+			return db.Users.SingleOrDefault(u => u.Id == id);
 		}
 
 
-		public User GetUser(string guid, UserInclude? include = null)
+		public User GetUser(string guid)
 		{
-			switch (include)
-			{
-				case UserInclude.PlantAssignments:
-					return db.Users
-						.Include(u => u.PlantAssignments)
-						.SingleOrDefault(u => u.Guid == guid);
-				case UserInclude.PlantStates:
-					return db.Users
-						.Include(u => u.PlantStates)
-						.SingleOrDefault(u => u.Guid == guid);
-				case UserInclude.All:
-					return db.Users
-						.Include(u => u.PlantAssignments)
-						.Include(u => u.PlantStates)
-						.SingleOrDefault(u => u.Guid == guid);
-				default:
-					return db.Users.SingleOrDefault(u => u.Guid == guid);
-			}
-		}
-
-
-		public IEnumerable<User> GetUsers()
-		{
-			return db.Users;
+			return db.Users.SingleOrDefault(u => u.Guid == guid);
 		}
 
 		public User CreateUser(ApplicationUser applicationUser, string password)

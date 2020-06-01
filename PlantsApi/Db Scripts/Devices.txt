@@ -1,0 +1,5 @@
+﻿INSERT INTO [Device]
+  ([SerialNumber]
+  ,[PlantId]
+  ,[UserId])
+VALUES ('123467',8,5)

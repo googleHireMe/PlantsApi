@@ -16,11 +16,8 @@ namespace PlantsApi.Models.DbModels
         public int Battery { get; set; }
         public int WaterRemained { get; set; }
 
-        public int PlantId { get; set; }
-        public Plant Plant { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int DeviceId { get; set; }
+        public Device Device { get; set; }
 
         public static PlantState Clone(PlantState dto)
         {
@@ -35,9 +32,21 @@ namespace PlantsApi.Models.DbModels
                 SoilEc = dto.SoilEc,
                 Battery = dto.Battery,
                 WaterRemained = dto.WaterRemained,
-                PlantId = dto.PlantId,
-                UserId = dto.UserId
+                DeviceId = dto.DeviceId
             };
+        }
+
+        public static void Update(PlantState value, PlantState updatedValue)
+        {
+            value.Time = updatedValue.Time;
+            value.Light = updatedValue.Light;
+            value.Temperature = updatedValue.Temperature;
+            value.EnvHumid = updatedValue.EnvHumid;
+            value.SoilMoist = updatedValue.SoilMoist;
+            value.SoilEc = updatedValue.SoilEc;
+            value.Battery = updatedValue.Battery;
+            value.WaterRemained = updatedValue.WaterRemained;
+            value.DeviceId = updatedValue.DeviceId;
         }
     }
 

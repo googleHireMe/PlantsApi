@@ -3,6 +3,7 @@ using PlantsApi.Database;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Models.DbModels;
+using PlantsApi.Models.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,51 +21,54 @@ namespace PlantsApi.Repository
 		}
 
 
-		public PlantState GetPlantState(int id)
+		public PlantStateResponceDto GetPlantState(int id)
 		{
-			var result = db.PlantStates
-				.Include(ps => ps.Plant)
+			var plantState = db.PlantStates
+				.Include(ps => ps.Device)
 				.SingleOrDefault(ps => ps.Id == id);
-			result.User = null;
+			var result = new PlantStateResponceDto
+			{
+				Plant = new PlantDto(plantState.Device.Plant),
+				PlantState = new PlantStateDto(plantState.Device.PlantState)
+			};
 			return result;
 		}
 
-        public IEnumerable<PlantState> GetPlantStatesForUser(int userId)
+		public IEnumerable<PlantStateResponceDto> GetPlantStatesForUser(int userId)
+		{
+			var user = db.Users
+				.Include(u => u.Devices).ThenInclude(d => d.Plant)
+				.Include(u => u.Devices).ThenInclude(d => d.PlantState)
+				.FirstOrDefault(u => u.Id == userId);
+
+			var result = user.Devices
+				.Where(d => d.Plant != null && d.PlantState != null)
+				.Select(d =>
+					new PlantStateResponceDto
+					{
+						Plant = new PlantDto(d.Plant),
+						PlantState = new PlantStateDto(d.PlantState)
+					})
+				.ToList();
+
+			return result;
+		}
+
+        public PlantState CreateOrUpdatePlantState(PlantState plantState)
         {
-            var result = db.PlantStates
-                        .Include(ps => ps.Plant)
-                        .Where(ps => ps.UserId == userId)
-                        .ToList();
-			result.ForEach(ps => ps.User = null);
-			return result;
+            var existingPlantState = db.PlantStates
+                .SingleOrDefault(ps => ps.DeviceId == plantState.DeviceId);
+            if (existingPlantState == null)
+            {
+                db.PlantStates.Add(plantState);
+            }
+            else
+            {
+                PlantState.Update(existingPlantState, plantState);
+            }
+            db.SaveChanges();
+            return plantState;
         }
-
-        public IEnumerable<PlantState> GetPlantStates()
-		{
-			return db.PlantStates;
-		}
-
-
-		public PlantState CreatePlantState(PlantState plantState)
-		{
-			db.PlantStates.Add(plantState);
-			db.SaveChanges();
-			return plantState;
-		}
-
-		public void UpdatePlantState(PlantState plantState)
-		{
-			// TODO: impl update
-			throw new NotImplementedException();
-		}
-
-
-		public void DeletePlantState(int id)
-		{
-			var toDelete = db.PlantStates.Single(ps => ps.Id == id);
-			db.Remove(toDelete);
-			db.SaveChanges();
-		}
 
 	}
 }

@@ -12,52 +12,43 @@ using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Models.DbModels;
 using PlantsApi.Models.Enums;
-using PlantsApi.Models.ViewModels;
+using PlantsApi.Models.Dtos;
 using PlantsApi.Repository;
 
 namespace PlantsApi.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class DevicePlantController : ControllerBase
+	public class DeviceController : ControllerBase
 	{
 		private readonly IPlantsStateRepository plantsStateRepository;
-		private readonly IUsersRepository usersRepository;
-		private readonly UserManager<ApplicationUser> userManager;
-		private readonly SignInManager<ApplicationUser> signInManager;
+		private readonly IDevicesRepository devicesRepository;
 		private readonly IFileProvider fileProvider;
 
-		public DevicePlantController(IPlantsStateRepository plantsStateRepository,
-									 IUsersRepository usersRepository,
-									 UserManager<ApplicationUser> userManager,
-									 SignInManager<ApplicationUser> signInManager,
+		public DeviceController(IPlantsStateRepository plantsStateRepository,
+									 IDevicesRepository devicesRepository,
 									 IFileProvider fileProvider)
 		{
-			this.userManager = userManager;
 			this.plantsStateRepository = plantsStateRepository;
-			this.usersRepository = usersRepository;
-			this.signInManager = signInManager;
+			this.devicesRepository = devicesRepository;
 			this.fileProvider = fileProvider;
 		}
 
-        [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] DeviceInfoDto value)
+		[HttpPost]
+        public IActionResult Post([FromBody] DeviceInfoDto value)
         {
-            var appUser = await userManager.FindByEmailAsync(value.UserEmail);
-            if (appUser != null)
+            var device = devicesRepository.GetDevice(value.SerialNumber);
+            if (device == null)
             {
-                await signInManager.SignOutAsync();
-                var signInResult = await signInManager
-                    .PasswordSignInAsync(appUser, value.UserPassword, false, false);
-                if (signInResult.Succeeded)
-                {
-                    var user = usersRepository.GetUser(appUser.Id);
-                    var plantState = DeviceInfoDto.MapToPlantState(value, user.Id);
-                    var created = plantsStateRepository.CreatePlantState(plantState);
-                    return Ok();
-                }
+                return StatusCode(StatusCodes.Status400BadRequest, $"Device with serial {value.SerialNumber} doesn't exists");
             }
-            return Unauthorized();
+            if (device.UserId == null)
+            {
+				return StatusCode(StatusCodes.Status403Forbidden, "Device isn't connected to any user");
+            }
+            var plantState = DeviceInfoDto.MapToPlantState(value, device.Id);
+            plantsStateRepository.CreateOrUpdatePlantState(plantState);
+            return StatusCode(StatusCodes.Status200OK);
         }
 
         [HttpGet]

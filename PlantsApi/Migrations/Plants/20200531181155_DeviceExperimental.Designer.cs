@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PlantsApi.Database;
 
 namespace PlantsApi.Migrations.Plants
 {
     [DbContext(typeof(PlantsContext))]
-    partial class PlantsContextModelSnapshot : ModelSnapshot
+    [Migration("20200531181155_DeviceExperimental")]
+    partial class DeviceExperimental
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,6 +128,26 @@ namespace PlantsApi.Migrations.Plants
                     b.ToTable("Plant");
                 });
 
+            modelBuilder.Entity("PlantsApi.Models.DbModels.PlantAssignment", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PlantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PlantId", "DeviceId");
+
+                    b.HasIndex("DeviceId");
+
+                    b.HasIndex("PlantId");
+
+                    b.ToTable("PlantAssignment");
+                });
+
             modelBuilder.Entity("PlantsApi.Models.DbModels.PlantState", b =>
                 {
                     b.Property<int>("Id")
@@ -228,6 +250,27 @@ namespace PlantsApi.Migrations.Plants
                     b.HasOne("PlantsApi.Models.DbModels.User", "User")
                         .WithMany("Devices")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("PlantsApi.Models.DbModels.PlantAssignment", b =>
+                {
+                    b.HasOne("PlantsApi.Models.DbModels.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantsApi.Models.DbModels.Plant", "Plant")
+                        .WithMany()
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PlantsApi.Models.DbModels.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PlantsApi.Models.DbModels.PlantState", b =>

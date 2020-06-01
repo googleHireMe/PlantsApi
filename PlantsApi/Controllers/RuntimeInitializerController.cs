@@ -9,30 +9,30 @@ using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Models.Enums;
-using PlantsApi.Models.ViewModels;
+using PlantsApi.Models.Dtos;
 using PlantsApi.Repository;
 using PlantsApi.Services.Initializers;
 
 namespace PlantsApi.Controllers
 {
-	[ApiController]
-	[Route("api/[controller]")]
-	public class RuntimeInitializerController : ControllerBase
-	{
-		private readonly RuntimeInitializer runtimeInitializer;
+	//[ApiController]
+	//[Route("api/[controller]")]
+	//public class RuntimeInitializerController : ControllerBase
+	//{
+	//	private readonly RuntimeInitializer runtimeInitializer;
 
-		public RuntimeInitializerController(RuntimeInitializer runtimeInitializer)
-		{
-			this.runtimeInitializer = runtimeInitializer;
-		}
+	//	public RuntimeInitializerController(RuntimeInitializer runtimeInitializer)
+	//	{
+	//		this.runtimeInitializer = runtimeInitializer;
+	//	}
 
-		[HttpGet]
-		public async Task<IActionResult> GetAsync()
-		{
-			await runtimeInitializer.InitializeDatabaseAsync();
-			return Ok();
-		}
+	//	[HttpGet]
+	//	public async Task<IActionResult> GetAsync()
+	//	{
+	//		await runtimeInitializer.InitializeDatabaseAsync();
+	//		return Ok();
+	//	}
 
-	}
+	//}
 }
 

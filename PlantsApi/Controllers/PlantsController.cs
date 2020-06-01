@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Models;
 using PlantsApi.Repository;
 using Microsoft.AspNetCore.Identity;
-using PlantsApi.Models.ViewModels;
+using PlantsApi.Models.Dtos;
 using PlantsApi.Models.DbModels;
 
 namespace PlantsApi.Controllers
@@ -42,44 +42,6 @@ namespace PlantsApi.Controllers
 				return repository.GetPlant(id);
 			else
 				return NotFound();
-		}
-
-		[HttpPost]
-		public IActionResult Post([FromBody] Plant value)
-		{
-			var created = repository.CreatePlant(value);
-			return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
-		}
-
-		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody] Plant value)
-		{
-			if (id != value.Id) { return BadRequest(); }
-			try
-			{
-				repository.UpdatePlant(value);
-				return NoContent();
-			}
-			catch (Exception)
-			{
-				if (!DoesPlantExist(id)) { return NotFound(); }
-				else { throw; }
-			}
-		}
-
-		[HttpDelete("{id}")]
-		public IActionResult Delete(int id)
-		{
-			try
-			{
-				repository.DeletePlant(id);
-				return NoContent();
-			}
-			catch (Exception)
-			{
-				if (!DoesPlantExist(id)) { return NotFound(); }
-				else { throw; }
-			}
 		}
 
 		[HttpGet]

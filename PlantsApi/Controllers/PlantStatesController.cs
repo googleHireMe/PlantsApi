@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlantsApi.Interfaces;
 using PlantsApi.Models;
 using PlantsApi.Models.DbModels;
+using PlantsApi.Models.Dtos;
 using PlantsApi.Models.Enums;
 using PlantsApi.Repository;
 
@@ -33,72 +34,21 @@ namespace PlantsApi.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult<PlantState>> GetAsync(int id)
+		public ActionResult<PlantStateResponceDto> Get(int id)
 		{
-			if (await HasAccessToPlantState(id))
-				return plantsStateRepository.GetPlantState(id);
-			else
-				return NotFound();
+			return plantsStateRepository.GetPlantState(id);
 		}
 
 		[HttpGet]
-		public async Task<IEnumerable<PlantState>> GetAsync()
-		{
-			var userGuid = (await userManager.GetUserAsync(User)).Id;
-			var user = usersRepository.GetUser(userGuid);
-			var result = plantsStateRepository.GetPlantStatesForUser(user.Id).ToList();
-			return result;
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> PostAsync([FromBody] PlantState value)
-		{
-			var appUser = await userManager.GetUserAsync(User);
-			var user = usersRepository.GetUser(appUser.Id);
-			value.UserId = user.Id;
-			value.Time = DateTime.Now;
-			var created = plantsStateRepository.CreatePlantState(value);
-			return Ok(created);
-		}
-
-		[HttpPut("{id}")]
-		public async Task<IActionResult> PutAsync(int id, [FromBody] PlantState value)
-		{
-			if (id != value.Id) { return BadRequest(); }
-			if (await HasAccessToPlantState(id))
-			{
-				plantsStateRepository.UpdatePlantState(value);
-				return NoContent();
-			}
-			else
-			{
-				return NotFound();
-			}
-		}
-
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteAsync(int id)
-		{
-			if (await HasAccessToPlantState(id))
-			{
-				plantsStateRepository.DeletePlantState(id);
-				return NoContent();
-			}
-			else
-			{
-				return NotFound();
-			}
-		}
-
-		private async Task<bool> HasAccessToPlantState(int plantStateId)
+		public async Task<IEnumerable<PlantStateResponceDto>> GetAsync()
 		{
 			var userGuid = (await userManager.GetUserAsync(User)).Id;
 			var userId = usersRepository.GetUser(userGuid).Id;
-			var plantState = plantsStateRepository.GetPlantState(plantStateId);
-			return plantState != null && plantState.UserId == userId;
+			var result = plantsStateRepository
+				.GetPlantStatesForUser(userId)
+				.ToList();
+			return result;
 		}
-
-
 
 	}
 }

@@ -76,10 +76,11 @@ namespace PlantsApi
         private void ConfigureDependencies(IServiceCollection services)
         {
             services.AddScoped<IPlantsRepository, PlantsRepositiry>();
+            services.AddScoped<IDevicesRepository, DevicesRepository>();
             services.AddScoped<IPlantsStateRepository, PlantsStateRepository>();
-            services.AddScoped<IPlantAssigmentsRepository, PlantAssigmentsRepository>();
+            services.AddScoped<IAssigmentsRepository, AssigmentsRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
-            services.AddTransient<RuntimeInitializer, RuntimeInitializer>();
+            //services.AddTransient<RuntimeInitializer, RuntimeInitializer>();
         }
 
         private void ConfigureDatabase(IServiceCollection services)
