@@ -1,8 +1,5 @@
 ﻿using PlantsApi.Models.DbModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PlantsApi.Models.Dtos;
 
 namespace PlantsApi.Interfaces
 {
@@ -10,5 +7,6 @@ namespace PlantsApi.Interfaces
     {
         public Device GetDevice(int id);
         public Device GetDevice(string serialNumber);
+        public ConditionIndicatorsDto GetConditionIndicators(DeviceInfoDto state);
     }
 }

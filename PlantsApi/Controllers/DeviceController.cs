@@ -46,9 +46,15 @@ namespace PlantsApi.Controllers
             {
 				return StatusCode(StatusCodes.Status403Forbidden, "Device isn't connected to any user");
             }
+			if(device.PlantId == null)
+			{
+				return StatusCode(StatusCodes.Status403Forbidden, "Device isn't connected to any plant");
+			}
             var plantState = DeviceInfoDto.MapToPlantState(value, device.Id);
             plantsStateRepository.CreateOrUpdatePlantState(plantState);
-            return StatusCode(StatusCodes.Status200OK);
+			var conditionIndicators = devicesRepository.GetConditionIndicators(value);
+
+			return Ok(conditionIndicators);
         }
 
         [HttpGet]
