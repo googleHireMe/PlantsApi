@@ -4,5 +4,6 @@
     {
         public PlantDto Plant { get; set; }
         public PlantStateDto PlantState { get; set; }
+        public DeviceDto Device { get; set; }
     }
 }

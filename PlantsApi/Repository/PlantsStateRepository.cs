@@ -24,12 +24,14 @@ namespace PlantsApi.Repository
 		public PlantStateResponceDto GetPlantState(int id)
 		{
 			var plantState = db.PlantStates
-				.Include(ps => ps.Device)
+				.Include(ps => ps.Device).ThenInclude(d => d.Plant)
+				.Include(ps => ps.Device).ThenInclude(d => d.PlantState)
 				.SingleOrDefault(ps => ps.Id == id);
 			var result = new PlantStateResponceDto
 			{
 				Plant = new PlantDto(plantState.Device.Plant),
-				PlantState = new PlantStateDto(plantState.Device.PlantState)
+				PlantState = new PlantStateDto(plantState.Device.PlantState),
+				Device = new DeviceDto(plantState.Device)
 			};
 			return result;
 		}
@@ -47,7 +49,8 @@ namespace PlantsApi.Repository
 					new PlantStateResponceDto
 					{
 						Plant = new PlantDto(d.Plant),
-						PlantState = new PlantStateDto(d.PlantState)
+						PlantState = new PlantStateDto(d.PlantState),
+						Device = new DeviceDto(d)
 					})
 				.ToList();
 
