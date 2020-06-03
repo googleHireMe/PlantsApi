@@ -41,7 +41,7 @@ namespace PlantsApi.Repository
             var result = new ConditionIndicatorsDto
             {
                 isEnvHumidOk = state.EnvHumid > plantInfo.MinEnvHumid && state.EnvHumid < plantInfo.MaxEnvHumid,
-                isLightOk = state.Light > plantInfo.MinLightLux && state.Light < plantInfo.MaxLightMmol,
+                isLightOk = state.Light > plantInfo.MinLightLux && state.Light < plantInfo.MaxLightLux,
                 isSoilEcOk = state.SoilEc > plantInfo.MinSoilEc && state.SoilEc < plantInfo.MaxSoilEc,
                 isSoilMoistOk = state.SoilMoist > plantInfo.MinSoilMoist && state.SoilMoist < plantInfo.MaxSoilMoist,
                 isTempOk = state.Temp > plantInfo.MinTemperature && state.Temp < plantInfo.MaxTemperature
