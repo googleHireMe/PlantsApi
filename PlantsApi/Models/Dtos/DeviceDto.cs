@@ -10,11 +10,13 @@ namespace PlantsApi.Models.Dtos
     {
         public int Id { get; set; }
         public string SerialNumber { get; set; }
+        public int? PlantId { get; set; }
 
         public DeviceDto(Device device)
         {
             Id = device.Id;
             SerialNumber = device.SerialNumber;
+            PlantId = device.PlantId;
         }
     }
 }
