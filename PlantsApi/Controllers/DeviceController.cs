@@ -34,13 +34,32 @@ namespace PlantsApi.Controllers
 			this.fileProvider = fileProvider;
 		}
 
+		[HttpGet("{serialNumber}")]
+		public IActionResult Get(string serialNumber)
+		{
+			var device = devicesRepository.GetDevice(serialNumber);
+			if (device == null)
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, $"Device with serial {serialNumber} doesn't exists");
+			}
+			if (device.UserId == null)
+			{
+				return StatusCode(StatusCodes.Status403Forbidden, "Device isn't connected to any user");
+			}
+			if (device.PlantId == null)
+			{
+				return StatusCode(StatusCodes.Status403Forbidden, "Device isn't connected to any plant");
+			}
+			return Ok("Device is connected to user account and plant");
+		}
+
 		[HttpPost]
         public IActionResult Post([FromBody] DeviceInfoDto value)
         {
-            var device = devicesRepository.GetDevice(value.SerialNumber);
+            var device = devicesRepository.GetDevice(value.DeviceId);
             if (device == null)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, $"Device with serial {value.SerialNumber} doesn't exists");
+                return StatusCode(StatusCodes.Status400BadRequest, $"Device with serial {value.DeviceId} doesn't exists");
             }
             if (device.UserId == null)
             {

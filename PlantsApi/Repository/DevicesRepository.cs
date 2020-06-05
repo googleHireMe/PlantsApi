@@ -35,7 +35,7 @@ namespace PlantsApi.Repository
         { 
             var plantInfo = db.Devices
                 .Include(d => d.Plant)
-                .Single(d => d.SerialNumber == state.SerialNumber)
+                .Single(d => d.SerialNumber == state.DeviceId)
                 .Plant;
 
             var result = new ConditionIndicatorsDto

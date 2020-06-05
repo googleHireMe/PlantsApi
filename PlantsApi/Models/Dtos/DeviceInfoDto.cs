@@ -1,4 +1,5 @@
-﻿using PlantsApi.Models.DbModels;
+﻿using Newtonsoft.Json;
+using PlantsApi.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace PlantsApi.Models.Dtos
         public int SoilEc { get; set; }
         public int Battery { get; set; }
         public int WaterRemained { get; set; }
-        public string SerialNumber { get; set; }
+        // It's actually SerialNumber
+        public string DeviceId { get; set; }
 
         public static PlantState MapToPlantState(DeviceInfoDto dto, int deviceId)
         {
