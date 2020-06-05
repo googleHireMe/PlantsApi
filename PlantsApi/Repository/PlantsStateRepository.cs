@@ -44,12 +44,12 @@ namespace PlantsApi.Repository
 				.FirstOrDefault(u => u.Id == userId);
 
 			var result = user.Devices
-				.Where(d => d.Plant != null && d.PlantState != null)
+				.Where(d => d.Plant != null)
 				.Select(d =>
 					new PlantStateResponceDto
 					{
 						Plant = new PlantDto(d.Plant),
-						PlantState = new PlantStateDto(d.PlantState),
+						PlantState = d.PlantState != null ? new PlantStateDto(d.PlantState) : null,
 						Device = new DeviceDto(d)
 					})
 				.ToList();

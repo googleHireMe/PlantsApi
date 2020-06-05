@@ -52,6 +52,11 @@ namespace PlantsApi.Repository
 		public void UnlinkPlantFromDevice(string serialNumber)
 		{
 			var device = db.Devices.Single(d => d.SerialNumber == serialNumber);
+			var plantStateToDelete = db.PlantStates.SingleOrDefault(ps => ps.DeviceId == device.PlantId);
+			if(plantStateToDelete != null)
+			{
+				db.PlantStates.Remove(plantStateToDelete);
+			}
 			device.PlantId = null;
 			db.SaveChanges();
 		}
